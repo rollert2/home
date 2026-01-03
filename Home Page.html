@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skedaddle Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            /* Smoother, longer transition for the whole body */
+            transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0;
+            padding: 0;
+        }
+
+        .hub-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            /* Sync container transition with body */
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+
+        /* Softer, more gradual hover states for backgrounds */
+        .bg-portal-hover {
+            background: radial-gradient(circle at 30% 50%, #f1f5f9 0%, #cbd5e1 100%);
+        }
+
+        .bg-xmas-hover {
+            background: radial-gradient(circle at 70% 50%, #1e1b4b 0%, #0f172a 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Card-specific hover effects */
+        .card-portal:hover {
+            background: white;
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.12);
+            border-color: #e2e8f0;
+        }
+
+        .card-xmas:hover {
+            background: rgba(30, 41, 59, 0.85);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
+            border-color: #3b82f6;
+        }
+
+        .festive-border::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #ef4444, #fbbf24, #22c55e);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .card-xmas:hover.festive-border::after {
+            opacity: 1;
+        }
+
+        .no-tap-highlight {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 640px) {
+            .hub-container {
+                align-items: flex-start;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-200">
+
+    <div id="main-container" class="hub-container p-6">
+        <div class="max-w-5xl w-full flex flex-col gap-10 md:gap-14">
+            
+            <!-- Header Section -->
+            <div class="text-center space-y-4">
+                <h1 id="main-title" class="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white transition-all duration-700">
+                    <span style="color: #00843d;">Skedaddle</span> Hub
+                </h1>
+                <p id="main-subtitle" class="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
+                    Professional Management Suite
+                </p>
+            </div>
+
+            <!-- Choice Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 h-full">
+                
+                <!-- Technician Portal / Time Clock -->
+                <a href="https://rollert2.github.io/Skedaddle-Timeclock/" 
+                   onmouseenter="setTheme('portal')" 
+                   onmouseleave="resetTheme()"
+                   class="card-portal glass-card rounded-[2.5rem] p-8 md:p-12 flex flex-col items-center text-center group relative overflow-hidden no-tap-highlight">
+                    
+                    <div class="w-20 h-20 md:w-24 md:h-24 mb-6 md:mb-8 p-4 bg-white rounded-3xl shadow-sm border border-slate-100 group-hover:scale-105 transition-transform">
+                        <img src="https://www.skedaddlewildlife.com/wp-content/themes/salcode-bootstrap-genesis/images/logo_r.png" 
+                             alt="Skedaddle Logo" 
+                             class="w-full h-full object-contain">
+                    </div>
+                    
+                    <h2 class="text-xl md:text-3xl font-black text-slate-100 group-hover:text-slate-900 transition-colors uppercase tracking-tight mb-3">
+                        Technician Portal
+                    </h2>
+                    
+                    <p class="text-slate-400 group-hover:text-slate-600 transition-colors mb-8 text-xs md:text-sm leading-relaxed max-w-xs">
+                        Daily operations: logs, inventory tracking, and technician resources.
+                    </p>
+                    
+                    <div class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-orange-600 text-white rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest group-hover:bg-orange-500 transition-colors shadow-lg">
+                        Clock In <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </a>
+
+                <!-- Christmas Map Maker -->
+                <a href="https://rollert2.github.io/SkedaddleMapMaker/" 
+                   onmouseenter="setTheme('xmas')" 
+                   onmouseleave="resetTheme()"
+                   class="card-xmas glass-card festive-border rounded-[2.5rem] p-8 md:p-12 flex flex-col items-center text-center group relative overflow-hidden no-tap-highlight">
+                    
+                    <div class="w-20 h-20 md:w-24 md:h-24 mb-6 md:mb-8 p-4 bg-slate-800 rounded-3xl shadow-xl border border-slate-700 group-hover:border-blue-500 transition-all">
+                        <img src="https://i.imgur.com/zdJfkpg.png" 
+                             alt="Xmas Logo" 
+                             class="w-full h-full object-contain rounded-xl">
+                    </div>
+                    
+                    <h2 class="text-xl md:text-3xl font-black text-white uppercase tracking-tight mb-3">
+                        Xmas Map Maker
+                    </h2>
+                    
+                    <p class="text-slate-400 group-hover:text-slate-300 transition-colors mb-8 text-xs md:text-sm leading-relaxed max-w-xs">
+                        Creative suite for designing and mapping festive holiday displays.
+                    </p>
+                    
+                    <div class="mt-auto inline-flex items-center gap-2 px-6 py-3 bg-blue-700 text-white rounded-full font-black text-[10px] md:text-xs uppercase tracking-widest group-hover:bg-blue-600 transition-colors shadow-lg">
+                        Launch Designer <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </div>
+
+                    <!-- Decorative elements -->
+                    <div class="absolute -bottom-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i data-lucide="snowflake" class="w-24 h-24 md:w-32 md:h-32 text-blue-400"></i>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center pt-4 md:pt-8 pb-4">
+                <p class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] text-slate-500 transition-colors duration-700" id="footer-text">
+                    Skedaddle Wildlife Control
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        const container = document.getElementById('main-container');
+        const title = document.getElementById('main-title');
+        const subtitle = document.getElementById('main-subtitle');
+        const footerText = document.getElementById('footer-text');
+
+        function setTheme(type) {
+            if (type === 'portal') {
+                container.classList.add('bg-portal-hover');
+                title.style.color = '#1e293b';
+                subtitle.style.color = '#64748b';
+                footerText.style.color = '#64748b';
+            } else if (type === 'xmas') {
+                container.classList.add('bg-xmas-hover');
+                title.style.color = '#ffffff';
+                subtitle.style.color = '#94a3b8';
+                footerText.style.color = '#475569';
+            }
+        }
+
+        function resetTheme() {
+            container.classList.remove('bg-portal-hover', 'bg-xmas-hover');
+            title.style.color = '';
+            subtitle.style.color = '';
+            footerText.style.color = '';
+        }
+    </script>
+</body>
+</html>
