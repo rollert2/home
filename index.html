@@ -25,7 +25,7 @@
             transition: background 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             color: #f1f5f9;
         }
 
@@ -51,16 +51,11 @@
             transition: opacity 1.5s ease;
         }
 
-        .bg-portal-hover {
-            background: radial-gradient(circle at 30% 50%, #f1f5f9 0%, #cbd5e1 100%);
-        }
-
-        .bg-xmas-hover {
-            background: radial-gradient(circle at 70% 50%, #1e1b4b 0%, #0f172a 100%);
-        }
-
-        .bg-salesforce-hover {
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #082f49 100%);
+        /* Desktop Hover Backgrounds */
+        @media (min-width: 1024px) {
+            .bg-portal-hover { background: radial-gradient(circle at 30% 50%, #f1f5f9 0%, #cbd5e1 100%); }
+            .bg-xmas-hover { background: radial-gradient(circle at 70% 50%, #1e1b4b 0%, #0f172a 100%); }
+            .bg-salesforce-hover { background: radial-gradient(circle at 50% 50%, #1e293b 0%, #082f49 100%); }
         }
 
         .glass-card {
@@ -69,7 +64,25 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            overflow: hidden; /* Ensures the border and icons are clipped correctly */
+            overflow: hidden;
+        }
+
+        /* Card Sheen Animation */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: skewX(-25deg);
+            transition: 0.75s;
+        }
+        
+        .glass-card:hover::before {
+            left: 150%;
+            transition: 0.75s;
         }
 
         .card-portal:hover {
@@ -110,7 +123,6 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Fixed Xmas Top Border */
         .festive-border::after {
             content: '';
             position: absolute;
@@ -118,14 +130,14 @@
             background: linear-gradient(90deg, #ef4444, #fbbf24, #22c55e);
             opacity: 0;
             transition: opacity 0.5s ease;
-            border-radius: 3.5rem 3.5rem 0 0; /* Match the top curve of the card */
+            border-radius: 3.5rem 3.5rem 0 0;
         }
         .card-xmas:hover.festive-border::after { opacity: 1; }
 
         .no-tap-highlight { -webkit-tap-highlight-color: transparent; }
 
         @media (max-width: 1024px) {
-            .hub-container { height: auto; padding: 6rem 1.5rem 4rem 1.5rem; overflow-y: auto; }
+            .hub-container { height: auto; padding: 6rem 1.25rem 4rem 1.25rem; overflow-y: auto; align-items: flex-start; }
             body { overflow-y: auto; }
         }
     </style>
@@ -134,18 +146,18 @@
 
     <canvas id="star-canvas"></canvas>
 
-    <!-- Header Utility Bar -->
+    <!-- Header Status & Clock -->
     <div class="fixed top-0 left-0 w-full p-4 md:p-10 flex justify-between items-start z-50 pointer-events-none">
         <div class="flex flex-col gap-2 pointer-events-auto">
             <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                 <span class="status-dot"></span> Hub Status: Online
             </div>
             <div class="flex items-center gap-2 px-3 py-1 bg-white/5 backdrop-blur-md rounded-full border border-white/10 text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
-                <i data-lucide="shield-check" class="w-3 h-3 text-emerald-500"></i> Encrypted Session
+                <i data-lucide="shield-check" class="w-3 h-3 text-emerald-500"></i> Secure Session
             </div>
         </div>
         <div class="flex flex-col items-end pointer-events-auto">
-            <div id="live-clock" class="text-3xl md:text-4xl font-black text-white tracking-tighter tabular-nums leading-none">
+            <div id="live-clock" class="text-3xl md:text-5xl font-black text-white tracking-tighter tabular-nums leading-none">
                 00:00:00
             </div>
             <div id="live-date" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2">
@@ -155,7 +167,7 @@
     </div>
 
     <div id="main-container" class="hub-container">
-        <div class="max-w-7xl w-full flex flex-col gap-10 md:gap-14 px-4 md:px-12">
+        <div class="max-w-7xl w-full flex flex-col gap-10 md:gap-14 px-4 md:px-12 py-10">
             
             <!-- Branding Header -->
             <div class="text-center space-y-4">
@@ -183,12 +195,12 @@
                    onmouseleave="resetTheme()"
                    class="card-portal glass-card rounded-[3.5rem] p-10 md:p-14 flex flex-col items-center text-center group no-tap-highlight">
                     
-                    <div class="w-24 h-24 md:w-28 md:h-28 mb-8 p-6 bg-white rounded-[2.5rem] shadow-2xl group-hover:scale-105 transition-transform duration-700">
+                    <div class="w-28 h-28 md:w-32 md:h-32 mb-8 p-6 bg-white rounded-[2.5rem] shadow-2xl group-hover:scale-105 transition-all duration-700">
                         <img src="https://www.skedaddlewildlife.com/wp-content/themes/salcode-bootstrap-genesis/images/logo_r.png" 
                              alt="Technician Portal" class="w-full h-full object-contain">
                     </div>
                     
-                    <h2 class="text-2xl md:text-4xl font-black text-white group-hover:text-slate-900 transition-colors uppercase tracking-tighter mb-4">
+                    <h2 class="text-3xl md:text-5xl font-black text-white group-hover:text-slate-900 transition-colors uppercase tracking-tighter mb-4">
                         Technician Portal
                     </h2>
                     
@@ -207,12 +219,12 @@
                    onmouseleave="resetTheme()"
                    class="card-xmas glass-card festive-border rounded-[3.5rem] p-10 md:p-14 flex flex-col items-center text-center group no-tap-highlight">
                     
-                    <div class="w-24 h-24 md:w-28 md:h-28 mb-8 p-6 bg-slate-800 rounded-[2.5rem] shadow-2xl border border-slate-700 group-hover:border-blue-500 group-hover:scale-105 transition-all duration-700">
+                    <div class="w-28 h-28 md:w-32 md:h-32 mb-8 p-6 bg-slate-800 rounded-[2.5rem] shadow-2xl border border-slate-700 group-hover:border-blue-500 group-hover:scale-105 transition-all duration-700">
                         <img src="https://i.imgur.com/zdJfkpg.png" 
                              alt="Map Maker" class="w-full h-full object-contain rounded-2xl">
                     </div>
                     
-                    <h2 class="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4">
+                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
                         Xmas Map Maker
                     </h2>
                     
@@ -241,11 +253,11 @@
                    onmouseleave="resetTheme()"
                    class="sub-card sub-card-salesforce glass-card rounded-[2.5rem] p-8 flex items-center justify-between group no-tap-highlight">
                     <div class="flex items-center gap-6">
-                        <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
-                            <i data-lucide="cloud" class="w-6 h-6 text-blue-400 group-hover:text-white"></i>
+                        <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                            <i data-lucide="cloud" class="w-7 h-7 text-blue-400 group-hover:text-white"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="text-xl font-black text-white uppercase tracking-tight">Salesforce</h3>
+                            <h3 class="text-2xl font-black text-white uppercase tracking-tight">Salesforce</h3>
                             <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Main Pipeline & CRM</p>
                         </div>
                     </div>
@@ -259,11 +271,11 @@
                    onmouseleave="resetTheme()"
                    class="sub-card sub-card-recall glass-card rounded-[2.5rem] p-8 flex items-center justify-between group no-tap-highlight">
                     <div class="flex items-center gap-6">
-                        <div class="w-14 h-14 bg-red-600/20 rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors">
-                            <i data-lucide="refresh-ccw" class="w-6 h-6 text-red-400 group-hover:text-white"></i>
+                        <div class="w-16 h-16 bg-red-600/20 rounded-2xl flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                            <i data-lucide="refresh-ccw" class="w-7 h-7 text-red-400 group-hover:text-white"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="text-xl font-black text-white uppercase tracking-tight">Recalls</h3>
+                            <h3 class="text-2xl font-black text-white uppercase tracking-tight">Recalls</h3>
                             <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Priority Task Queue</p>
                         </div>
                     </div>
@@ -331,6 +343,8 @@
         updateHubTime();
 
         function setTheme(type) {
+            if (window.innerWidth < 1024) return; // Disable hover bg shift on mobile
+            
             if (type === 'portal') {
                 container.className = 'hub-container bg-portal-hover';
                 title.style.color = '#1e293b';
@@ -396,4 +410,3 @@
     </script>
 </body>
 </html>
-
